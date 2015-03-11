@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Message Bus Data Viz</title>
+        <link rel="stylesheet" href="lib/nvd3/build/nv.d3.css">
+    </head>
+  <body>
+    <!-- Scripts may be placed anywhere on a page. But FYI, they block rendering of elements
+     below them until after the scripts load-->
+    <script src="lib/jquery/jquery.min.js"></script>
+    <script src="lib/underscore/underscore.js"></script>
+    <script src="lib/backbone/backbone.js"></script>
+    <script src="lib/nvd3/build/nv.d3.js"></script>
+
+    <script src="data/sample-data.csv"></script>
+
+    <script src="models/SongModel.js"></script>
+    <script src="collections/Songs.js"></script>
+
+    <script src="models/AppModel.js"></script>
+
+    <script src="views/AppView.js"></script>
+
+    <script>
+      $(function(){
+        // set up model objects
+        var library = new Songs(songData);
+        var app = new AppModel({library: library});
+
+        // build a view for the top level of the whole app
+        var appView = new AppView({model: app});
+        var queueView = new SongQueueView();
+
+        // put the view onto the screen
+        $('body').append(appView.render());
+      });
+    </script>
+  </body>
+</html>
