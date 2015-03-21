@@ -1,5 +1,5 @@
 var ActivityView = Backbone.View.extend({
-  el: '#chart',
+  el: '#activity-chart',
   className: 'activity-view',
 
   initialize: function(params){

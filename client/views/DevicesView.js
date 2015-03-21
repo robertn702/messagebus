@@ -1,5 +1,5 @@
 var DevicesView = Backbone.View.extend({
-  el: '#char2',
+  el: '#devices-chart',
   template: _.template('<h2>DevicesView</h2>'),
   className: 'devices-view',
   initialize: function(params) {
@@ -18,7 +18,6 @@ var DevicesView = Backbone.View.extend({
     var deviceValues = [];
 
     for (key in deviceGroupedData) {
-        console.log('deviceGroupedData: ', deviceGroupedData);
         deviceValues.push({
             label: key,
             value: deviceGroupedData[key].length/data.length
@@ -28,7 +27,8 @@ var DevicesView = Backbone.View.extend({
     return deviceValues;
   },
   render: function(){
-    d3.select("#chart2")
+
+    d3.select("#devices-chart")
       .datum(this.data)
       .transition().duration(350)
       .call(this.chart);

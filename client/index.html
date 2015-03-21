@@ -29,15 +29,15 @@
     <script src="views/SegementsView.js"></script>
     <script src="views/AppView.js"></script>
     <div>
-        <h1>Activity</h1>
-        <svg id="chart"></svg>
+        <h2>Activity</h2>
+        <svg id="activity-chart"></svg>
     </div>
     <div>
-        <h1>Segments</h1>
+        <h2>Segments</h2>
     </div>
     <div>
-        <h1>Devices</h1>
-        <svg id="chart2"></svg>
+        <h2>Devices</h2>
+        <svg id="devices-chart"></svg>
     </div>
     <script>
       $(function(){
@@ -48,15 +48,8 @@
 
         var data = sampleData;
 
-        // group data by date
-        var genderGroupedData = _.groupBy(data, 'Gender');
-        // console.log('dateGroupedData: ', dateGroupedData);
-        var genderValues = [];
-
-
         console.log('gender count: ', _.countBy(data, 'Gender'));
 
-        var GenderData = genderValues;
 
         // var app = new AppModel({});
 
