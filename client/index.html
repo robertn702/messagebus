@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>Message Bus Data Viz</title>
+        <meta charset="UTF-8">
         <link rel="stylesheet" href="lib/nvd3/build/nv.d3.css">
         <link rel="stylesheet" href="css/style.css">
     </head>
@@ -9,12 +10,14 @@
     <!-- Scripts may be placed anywhere on a page. But FYI, they block rendering of elements
      below them until after the scripts load-->
     <script src="lib/jquery/dist/jquery.min.js"></script>
-    <script src="lib/underscore/underscore.js"></script>
+    <script src="lib/lodash/lodash.js"></script>
+    <!-- // <script src="lib/underscore/underscore.js"></script> -->
     <script src="lib/backbone/backbone.js"></script>
-    <script src="lib/d3/d3.min.js"></script>
+    <script src="lib/d3/d3.js"></script>
     <script src="lib/nvd3/build/nv.d3.js"></script>
 
     <!-- // <script src="data/sample-data.csv"></script> -->
+    <script src="data/sample-data.js"></script>
 
     <!-- // <script src="models/SongModel.js"></script> -->
     <!-- // <script src="collections/Songs.js"></script> -->
@@ -25,19 +28,79 @@
     <script src="views/DevicesView.js"></script>
     <script src="views/SegementsView.js"></script>
     <script src="views/AppView.js"></script>
-
+    <div>
+        <h1>Activity</h1>
+        <svg id="chart"></svg>
+    </div>
+    <div>
+        <h1>Segments</h1>
+    </div>
+    <div>
+        <h1>Devices</h1>
+        <svg id="chart2"></svg>
+    </div>
     <script>
       $(function(){
         // set up model objects
         // var activity = new ActivityModel();
         // var segements = new SegmentsModel();
         // var devices = new DevicesModel();
-        // var data =
-        var app = new AppModel({});
+
+        var data = sampleData;
+        console.log('data: ', data);
+
+        // group data by date
+        var dateGroupedData = _.groupBy(data, 'Date');
+        var deviceGroupedData = _.groupBy(data, 'Device');
+        var genderGroupedData = _.groupBy(data, 'Gender');
+        // console.log('dateGroupedData: ', dateGroupedData);
+        var activityValues = [];
+        var deviceValues = [];
+        var genderValues = [];
+
+        for (key in dateGroupedData) {
+            activityValues.push({
+                // x: Date.parse(key).toLocaleDateString(),
+                x: new Date(key),
+                y: _.where(dateGroupedData[key], {Activity: 1}).length/dateGroupedData[key].length
+            })
+        }
+
+        var sortedValues = _.sortBy(activityValues, 'x');
+        // console.log('sortedValues: ', sortedValues);
+
+        // console.log('activityValues: ', activityValues);
+
+        for (key in deviceGroupedData) {
+            console.log('deviceGroupedData: ', deviceGroupedData);
+            deviceValues.push({
+                label: key,
+                value: deviceGroupedData[key].length/data.length
+            })
+        }
+        // console.log('deviceValues: ', deviceValues);
+
+        console.log('gender count: ', _.countBy(data, 'Gender'));
+
+        // for (key in genderGroupedData) {
+        //     genderValues.push({
+        //         label: key,
+        //         value: genderGroupedData[key]
+        //     })
+        // }
+
+        var ActivityData = [{values: sortedValues}];
+        var DeviceData = deviceValues;
+        var GenderData = genderValues;
+
+        // var app = new AppModel({});
 
         // build a view for the top level of the whole app
-        var appView = new AppView({model: app});
-        // var queueView = new SongQueueView();
+        // var appView = new AppView({model: app});
+        var appView = new AppView({
+            ActivityData: ActivityData,
+            DeviceData: DeviceData
+        });
 
         // put the view onto the screen
         $('body').append(appView.render());
