@@ -47,60 +47,22 @@
         // var devices = new DevicesModel();
 
         var data = sampleData;
-        console.log('data: ', data);
 
         // group data by date
-        var dateGroupedData = _.groupBy(data, 'Date');
-        var deviceGroupedData = _.groupBy(data, 'Device');
         var genderGroupedData = _.groupBy(data, 'Gender');
         // console.log('dateGroupedData: ', dateGroupedData);
-        var activityValues = [];
-        var deviceValues = [];
         var genderValues = [];
 
-        for (key in dateGroupedData) {
-            activityValues.push({
-                // x: Date.parse(key).toLocaleDateString(),
-                x: new Date(key),
-                y: _.where(dateGroupedData[key], {Activity: 1}).length/dateGroupedData[key].length
-            })
-        }
-
-        var sortedValues = _.sortBy(activityValues, 'x');
-        // console.log('sortedValues: ', sortedValues);
-
-        // console.log('activityValues: ', activityValues);
-
-        for (key in deviceGroupedData) {
-            console.log('deviceGroupedData: ', deviceGroupedData);
-            deviceValues.push({
-                label: key,
-                value: deviceGroupedData[key].length/data.length
-            })
-        }
-        // console.log('deviceValues: ', deviceValues);
 
         console.log('gender count: ', _.countBy(data, 'Gender'));
 
-        // for (key in genderGroupedData) {
-        //     genderValues.push({
-        //         label: key,
-        //         value: genderGroupedData[key]
-        //     })
-        // }
-
-        var ActivityData = [{values: sortedValues}];
-        var DeviceData = deviceValues;
         var GenderData = genderValues;
 
         // var app = new AppModel({});
 
         // build a view for the top level of the whole app
         // var appView = new AppView({model: app});
-        var appView = new AppView({
-            ActivityData: ActivityData,
-            DeviceData: DeviceData
-        });
+        var appView = new AppView({data: data});
 
         // put the view onto the screen
         $('body').append(appView.render());
