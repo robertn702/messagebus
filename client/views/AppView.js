@@ -19,7 +19,9 @@ var AppView = Backbone.View.extend({
     }, this);
   },
   render: function(){
-
+    return this.$el.html([
+      this.segmentsView.$el
+    ]);
   }
 
 });

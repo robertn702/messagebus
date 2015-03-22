@@ -1,5 +1,4 @@
 var DevicesView = Backbone.View.extend({
-  // el: '#devices-chart',
   template: _.template('<h2>DevicesView</h2><svg id="devices-chart"></svg>'),
   className: 'devices-view',
   initialize: function(params) {

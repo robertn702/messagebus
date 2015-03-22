@@ -1,7 +1,6 @@
 var ActivityView = Backbone.View.extend({
   el: '#activity-chart',
   className: 'activity-view',
-
   initialize: function(params){
     console.log('Activity View this: ', this);
     chart = nv.models.lineChart()
@@ -13,7 +12,8 @@ var ActivityView = Backbone.View.extend({
 
     chart.xAxis     //Chart x-axis settings
       .axisLabel('Date')
-      .tickFormat(function(d) { return d3.time.format('%x')(new Date(d)) });
+      .tickFormat(function(d) { return d3.time.format('%x')(new Date(d)) })
+      .rotateLabels(-45);
 
     chart.yAxis     //Chart y-axis settings
       .axisLabel('Activity (%)')
