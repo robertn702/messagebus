@@ -22,7 +22,7 @@ var DevicesView = Backbone.View.extend({
             value: deviceGroupedData[key].length/data.length
         })
     }
-    this.data = deviceValues;
+    this.data = _.sortBy(deviceValues, 'label');
   },
   updateData: function(data) {
     this.formatData(data);

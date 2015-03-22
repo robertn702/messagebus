@@ -46,7 +46,6 @@ var ActivityView = Backbone.View.extend({
     this.render();
   },
   render: function(){
-    console.log('rendering ActivityView');
     d3.select(this.el)    //Select the <svg> element you want to render the chart in.
       .datum(this.data)         //Populate the <svg> element with chart data...
       .call(this.chart);          //Finally, render the chart!
