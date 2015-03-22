@@ -4,18 +4,19 @@ var AppView = Backbone.View.extend({
 
   initialize: function(params){
     // console.log('AppView params: ', params);
-    console.log('AppView this: ', this);
 
     this.activityView = new ActivityView({data: this.model.get('filteredData')});
-    this.segmentsView = new SegmentsView({data: this.model.get('filteredData')});
     this.devicesView = new DevicesView({data: this.model.get('filteredData')});
-
-    console.log('AppView this after view creation', this);
+    console.log('segments data from AppView: ', this.model.get('segmentData'));
+    this.segmentsView = new SegmentsView({model: this.model, data: this.model.get('segmentData')});
 
     this.model.on('change:filteredData', function(model) {
       this.activityView.updateData(model.get('filteredData'));
-      this.segmentsView.updateData(model.get('filteredData'));
       this.devicesView.updateData(model.get('filteredData'));
+    }, this);
+
+    this.model.on('change:segmentData', function(model) {
+      this.segmentsView.updateData(model.get('segmentData'));
     }, this);
   },
   render: function(){

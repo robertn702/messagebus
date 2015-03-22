@@ -1,62 +1,62 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Message Bus Data Viz</title>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" href="lib/nvd3/build/nv.d3.css">
-        <link rel="stylesheet" href="css/style.css">
-    </head>
-  <body>
-    <!-- Scripts may be placed anywhere on a page. But FYI, they block rendering of elements
-     below them until after the scripts load-->
-    <script src="lib/jquery/dist/jquery.min.js"></script>
-    <script src="lib/lodash/lodash.js"></script>
-    <!-- // <script src="lib/underscore/underscore.js"></script> -->
-    <script src="lib/backbone/backbone.js"></script>
-    <script src="lib/d3/d3.js"></script>
-    <script src="lib/nvd3/build/nv.d3.js"></script>
+<head>
+  <title>Message Bus Data Viz</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="lib/nvd3/build/nv.d3.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Scripts may be placed anywhere on a page. But FYI, they block rendering of elements
+  below them until after the scripts load-->
+  <script src="lib/jquery/dist/jquery.min.js"></script>
+  <script src="lib/lodash/lodash.js"></script>
+  <!-- // <script src="lib/underscore/underscore.js"></script> -->
+  <script src="lib/backbone/backbone.js"></script>
+  <script src="lib/d3/d3.js"></script>
+  <script src="lib/nvd3/build/nv.d3.js"></script>
 
-    <!-- // <script src="data/sample-data.csv"></script> -->
-    <script src="data/sample-data.js"></script>
+  <!-- // <script src="data/sample-data.csv"></script> -->
+  <script src="data/sample-data.js"></script>
 
-    <!-- // <script src="models/SongModel.js"></script> -->
-    <!-- // <script src="collections/Songs.js"></script> -->
+  <!-- // <script src="models/SongModel.js"></script> -->
+  <!-- // <script src="collections/Songs.js"></script> -->
 
-    <script src="models/AppModel.js"></script>
+  <script src="models/AppModel.js"></script>
 
-    <script src="views/ActivityView.js"></script>
-    <script src="views/DevicesView.js"></script>
-    <script src="views/SegementsView.js"></script>
-    <script src="views/AppView.js"></script>
+  <script src="views/ActivityView.js"></script>
+  <script src="views/DevicesView.js"></script>
+  <script src="views/SegementsView.js"></script>
+  <script src="views/AppView.js"></script>
+  <div>
+    <h2>Activity</h2>
     <div>
-        <h2>Activity</h2>
-        <div>
-            <h3>Filters</h3>
-            <ul>
-                <li><button value="1"  class="date-filter">Today</button></li>
-                <li><button value="3"  class="date-filter">3 Days</button></li>
-                <li><button value="7"  class="date-filter">7 Days</button></li>
-                <li><button value="14"  class="date-filter">14 Days</button></li>
-            </ul>
-        </div>
-        <svg id="activity-chart"></svg>
+      <h3>Filters</h3>
+      <ul>
+        <li><button value="1"  class="date-filter">Today</button></li>
+        <li><button value="3"  class="date-filter">3 Days</button></li>
+        <li><button value="7"  class="date-filter">7 Days</button></li>
+        <li><button value="14"  class="date-filter">14 Days</button></li>
+      </ul>
     </div>
-    <div>
+    <svg id="activity-chart"></svg>
+  </div>
+  <div>
 
-    </div>
-    <div>
-        <h2>Devices</h2>
-        <svg id="devices-chart"></svg>
-    </div>
-    <script>
-      $(function(){
-        var data = sampleData;
-        var appModel = new AppModel({data: data});
-        var appView = new AppView({model: appModel});
+  </div>
+  <div>
+    <h2>Devices</h2>
+    <svg id="devices-chart"></svg>
+  </div>
+  <script>
+  $(function(){
+    var data = sampleData;
+    var appModel = new AppModel({data: data});
+    var appView = new AppView({model: appModel});
 
-        // put the view onto the screen
-        $('body').append(appView.render());
-      });
-    </script>
-  </body>
+      // put the view onto the screen
+      $('body').append(appView.render());
+    });
+  </script>
+</body>
 </html>

@@ -2,14 +2,24 @@ var SegmentsView = Backbone.View.extend({
   template: _.template('<h2>SegmentsView</h2><ul><li value="all" class="segment-filter">All: <%= all %></li><li value="male" class="segment-filter">Male: <%= male %></li><li value="female" class="segment-filter">Female: <%= female %></li></ul>'),
   className: 'segments-view',
   initialize: function(params) {
-    // this.counts = _.countBy(params.data, )
 
+    console.log('segmentView params: ', params);
     this.formatData(params.data);
     this.render();
   },
+  events: {
+    'click .segment-filter': 'filterBySegment'
+  },
+  filterBySegment: function(clickEvent) {
+    var segVal = $(clickEvent.target).attr('value');
+    $('.segment-filter').removeClass('active');
+    $(clickEvent.target).addClass('active');
+    this.model.set('segmentFilter', segVal);
+    this.model.filterData(this.model.get('allData'));
+  },
   formatData: function(data) {
-    this.counts = _.countBy(data, 'Gender');
-    this.counts.all = this.counts.male + this.counts.female;
+    this.segments = data;
+    this.segments.all = data.male + data.female;
     // console.log('this.counts ', this.counts);
   },
   updateData: function(data) {
@@ -17,6 +27,6 @@ var SegmentsView = Backbone.View.extend({
     this.render();
   },
   render: function() {
-    return this.$el.html(this.template(this.counts));
+    return this.$el.html(this.template(this.segments));
   }
 })
