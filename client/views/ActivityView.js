@@ -31,13 +31,11 @@ var ActivityView = Backbone.View.extend({
     var activityValues = [];
 
     for (key in dateGroupedData) {
-        activityValues.push({
-            x: new Date(key),
-            y: _.where(dateGroupedData[key], {Activity: 1}).length/dateGroupedData[key].length
-        })
+      activityValues.push({
+        x: new Date(key),
+        y: _.where(dateGroupedData[key], {Activity: 1}).length/dateGroupedData[key].length
+      })
     }
-    // console.log('activityValues: ', activityValues);
-
     var sortedValues = _.sortBy(activityValues, 'x');
     // console.log('sortedValues: ', sortedValues);
 

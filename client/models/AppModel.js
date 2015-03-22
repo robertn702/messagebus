@@ -11,8 +11,8 @@ var AppModel = Backbone.Model.extend({
     this.set('segmentFilter', 'all');
 
     $('.date-filter').click(_.bind(function(button) {
-      console.log('clicked date filter');
       var dateRange = parseInt($(button.target).attr('value'));
+      this.set('segmentFilter', 'all');
       this.set('dateFilter', dateRange);
       this.filterData(this.get('allData'));
       this.set('segmentData', _.countBy(this.get('filteredData'), 'Gender'));

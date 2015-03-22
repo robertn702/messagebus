@@ -1,7 +1,24 @@
+/*#date-filters {
+  display: inline;
+}
+*/
+
+#date-filters {
+  text-align: right;
+}
+
+#date-filters > li {
+  display: inline;
+}
 .active {
   font-weight: bold;
 }
 
 .segment-filter {
   cursor: pointer;
+}
+
+#segments, #devices {
+  width: 50%;
+  float: left;
 }

@@ -19,7 +19,9 @@ var SegmentsView = Backbone.View.extend({
   },
   formatData: function(data) {
     this.segments = data;
-    this.segments.all = data.male + data.female;
+    if (!data.male) { this.segments.male = 0 };
+    if (!data.female) { this.segments.female = 0 };
+    this.segments.all = this.segments.male + this.segments.female;
     // console.log('this.counts ', this.counts);
   },
   updateData: function(data) {
