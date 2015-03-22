@@ -3,6 +3,7 @@ var ActivityView = Backbone.View.extend({
   className: 'activity-view',
 
   initialize: function(params){
+    console.log('Activity View this: ', this);
     chart = nv.models.lineChart()
       .margin({left: 100})  //Adjust chart margins to give the x-axis some breathing room.
       .useInteractiveGuideline(true)  //We want nice looking tooltips and a guideline!
@@ -44,7 +45,7 @@ var ActivityView = Backbone.View.extend({
   },
   updateData: function(data) {
     this.formatData(data);
-    this.render()
+    this.render();
   },
   render: function(){
     console.log('rendering ActivityView');
