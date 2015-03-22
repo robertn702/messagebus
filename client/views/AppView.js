@@ -1,16 +1,20 @@
 // AppView.js - Defines a backbone view class for the whole music app.
 var AppView = Backbone.View.extend({
+  className: 'app-view',
 
   initialize: function(params){
-    // this.playerView = new PlayerView({model: this.model.get('currentSong')});
-    // this.libraryView = new LibraryView({collection: this.model.get('library')});
-    // this.songQueueView = new SongQueueView({collection: this.model.get('songQueue')});
-    // console.log('params: ', params);
-    // console.log('params.ActivityData: ', params.ActivityData);
-    this.activityView = new ActivityView({data: params.data});
-    this.segmentsView = new SegmentsView({data: params.data});
-    this.devicesView = new DevicesView({data: params.data});
+    console.log('AppView params: ', params);
+    console.log('AppView this: ', this);
 
+    this.activityView = new ActivityView({data: this.model.get('filteredData')});
+    this.segmentsView = new SegmentsView({data: this.model.get('filteredData')});
+    this.devicesView = new DevicesView({data: this.model.get('filteredData')});
+
+    this.model.on('change:filteredData', function(model) {
+      this.activityView.updateData(this.model.get('filteredData'));
+      this.segmentsView.updateData(this.model.get('filteredData'));
+      this.devicesView.updateData(this.model.get('filteredData'));
+    })
     // change:currentSong - this is Backbone's way of allowing you to filter events to
     // ONLY receive change events for the specific property, 'currentSong'
     // this.model.on('change:currentSong', function(model){
@@ -18,13 +22,6 @@ var AppView = Backbone.View.extend({
     // }, this);
   },
 
-  render: function(){
-    return this.$el.html([
-      // this.activityView.render(),
-      // this.activityView.$el.html(),
-      this.segmentsView.render(),
-      this.devicesView.render(),
-    ]);
-  }
+  render: function(){}
 
 });

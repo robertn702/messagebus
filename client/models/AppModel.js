@@ -2,12 +2,8 @@
 var AppModel = Backbone.Model.extend({
 
   initialize: function(params){
-
-    // set "all data"
-    // set "filtered data"
-    // set "activity model"
-    // set "devices model"
-    // set "segments model"
+    this.set('allData', params.data);
+    this.set('filteredData', params.data);
   }
 
 });

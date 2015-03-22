@@ -1,6 +1,6 @@
 var DevicesView = Backbone.View.extend({
-  el: '#devices-chart',
-  template: _.template('<h2>DevicesView</h2>'),
+  // el: '#devices-chart',
+  template: _.template('<h2>DevicesView</h2><svg id="devices-chart"></svg>'),
   className: 'devices-view',
   initialize: function(params) {
     var chart = nv.models.pieChart()
@@ -10,7 +10,7 @@ var DevicesView = Backbone.View.extend({
       .showLabels(true);
 
     this.chart = chart;
-    this.data = this.formatData(params.data);
+    this.formatData(params.data);
     this.render();
   },
   formatData: function(data) {
@@ -23,16 +23,17 @@ var DevicesView = Backbone.View.extend({
             value: deviceGroupedData[key].length/data.length
         })
     }
-    // console.log('deviceValues: ', deviceValues);
-    return deviceValues;
+    this.data = deviceValues;
+  },
+  updateData: function(data) {
+    this.formatData(data);
+    this.render();
   },
   render: function(){
-
     d3.select("#devices-chart")
       .datum(this.data)
       .transition().duration(350)
       .call(this.chart);
-    // return this.$el.html(this.template({}));
   }
 
 })

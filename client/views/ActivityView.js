@@ -19,8 +19,7 @@ var ActivityView = Backbone.View.extend({
       .tickFormat(d3.format(".0%"));
 
     this.chart = chart;
-    this.myData = this.formatData(params.data);
-    // this.myData = sinAndCos();
+    this.formatData(params.data);
 
     nv.utils.windowResize(function() { this.chart.update() });
 
@@ -32,7 +31,6 @@ var ActivityView = Backbone.View.extend({
 
     for (key in dateGroupedData) {
         activityValues.push({
-            // x: Date.parse(key).toLocaleDateString(),
             x: new Date(key),
             y: _.where(dateGroupedData[key], {Activity: 1}).length/dateGroupedData[key].length
         })
@@ -42,12 +40,16 @@ var ActivityView = Backbone.View.extend({
     var sortedValues = _.sortBy(activityValues, 'x');
     // console.log('sortedValues: ', sortedValues);
 
-    return [{values: sortedValues}];
+    this.data = [{values: sortedValues}];
+  },
+  updateData: function(data) {
+    this.formatData(data);
+    this.render()
   },
   render: function(){
     console.log('rendering ActivityView');
     d3.select(this.el)    //Select the <svg> element you want to render the chart in.
-      .datum(this.myData)         //Populate the <svg> element with chart data...
+      .datum(this.data)         //Populate the <svg> element with chart data...
       .call(this.chart);          //Finally, render the chart!
   }
 });

@@ -30,6 +30,15 @@
     <script src="views/AppView.js"></script>
     <div>
         <h2>Activity</h2>
+        <div>
+            <h3>Filters</h3>
+            <ul>
+                <li><button>Today</button></li>
+                <li><button>3 Days</button></li>
+                <li><button>7 Days</button></li>
+                <li><button>14 Days</button></li>
+            </ul>
+        </div>
         <svg id="activity-chart"></svg>
     </div>
     <div>
@@ -41,21 +50,9 @@
     </div>
     <script>
       $(function(){
-        // set up model objects
-        // var activity = new ActivityModel();
-        // var segements = new SegmentsModel();
-        // var devices = new DevicesModel();
-
         var data = sampleData;
-
-        console.log('gender count: ', _.countBy(data, 'Gender'));
-
-
-        // var app = new AppModel({});
-
-        // build a view for the top level of the whole app
-        // var appView = new AppView({model: app});
-        var appView = new AppView({data: data});
+        var appModel = new AppModel({data: data});
+        var appView = new AppView({model: appModel});
 
         // put the view onto the screen
         $('body').append(appView.render());
