@@ -26,16 +26,26 @@ var ActivityView = Backbone.View.extend({
   formatData: function(data) {
     var dateGroupedData = _.groupBy(data, 'Date');
     var activityValues = [];
+    var yValsAvgArray = []
 
     for (key in dateGroupedData) {
       activityValues.push({
         x: new Date(key),
         y: _.where(dateGroupedData[key], {Activity: 1}).length/dateGroupedData[key].length
       })
+      yValsAvgArray.push({
+        x: new Date(key)
+      })
     }
     var sortedValues = _.sortBy(activityValues, 'x');
 
-    this.data = [{values: sortedValues, key: 'Activity'}];
+    var yVals = _.map(activityValues, function(item) {return item.y});
+    var yValsAvg = _.reduce(yVals, function(memo, num) {return memo + num}, 0)/yVals.length;
+    var yValsAvgArray = _.each(yValsAvgArray, function(item) {item.y = yValsAvg});
+
+    this.data = [
+    {key: 'Activity', values: sortedValues},
+    {key: 'Average', values: yValsAvgArray}];
   },
   updateData: function(data) {
     this.formatData(data);
