@@ -2,28 +2,25 @@ var ActivityView = Backbone.View.extend({
   el: '#activity-chart',
   className: 'activity-view',
   initialize: function(params){
-    console.log('Activity View this: ', this);
+    this.formatData(params.data);
     chart = nv.models.lineChart()
-      .margin({left: 100})  //Adjust chart margins to give the x-axis some breathing room.
+      .xScale(d3.time.scale())
       .useInteractiveGuideline(true)  //We want nice looking tooltips and a guideline!
       .showLegend(true)
       .showYAxis(true)
       .showXAxis(true);
 
     chart.xAxis     //Chart x-axis settings
-      .axisLabel('Date')
-      .tickFormat(function(d) { return d3.time.format('%x')(new Date(d)) })
-      .rotateLabels(-45);
+      .axisLabel('Date (dd/mm)')
+      .tickFormat(function(d) { return d3.time.format('%m/%d')(new Date(d)) })
 
     chart.yAxis     //Chart y-axis settings
       .axisLabel('Activity (%)')
       .tickFormat(d3.format(".0%"));
 
     this.chart = chart;
-    this.formatData(params.data);
 
     nv.utils.windowResize(function() { this.chart.update() });
-
     this.render();
   },
   formatData: function(data) {
@@ -37,9 +34,8 @@ var ActivityView = Backbone.View.extend({
       })
     }
     var sortedValues = _.sortBy(activityValues, 'x');
-    // console.log('sortedValues: ', sortedValues);
 
-    this.data = [{values: sortedValues}];
+    this.data = [{values: sortedValues, key: 'Activity'}];
   },
   updateData: function(data) {
     this.formatData(data);

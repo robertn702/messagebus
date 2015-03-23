@@ -28,22 +28,24 @@
   <script src="views/DevicesView.js"></script>
   <script src="views/SegementsView.js"></script>
   <script src="views/AppView.js"></script>
-  <div id="activity">
-    <h2>Activity</h2>
-    <ul id="date-filters">
-      <li><button value="1"  class="date-filter">Today</button></li>
-      <li><button value="3"  class="date-filter">3 Days</button></li>
-      <li><button value="7"  class="date-filter">7 Days</button></li>
-      <li><button value="14"  class="date-filter">14 Days</button></li>
-    </ul>
-    <svg id="activity-chart"></svg>
-  </div>
-  <div id="segments">
+  <div id="main">
+    <div id="activity">
+      <h2>Activity</h2>
+      <ul id="date-filters">
+        <li><button value="1"  class="date-filter">Today</button></li>
+        <li><button value="3"  class="date-filter">3 Days</button></li>
+        <li><button value="7"  class="date-filter">7 Days</button></li>
+        <li><button value="14"  class="date-filter">14 Days</button></li>
+      </ul>
+      <svg id="activity-chart"></svg>
+    </div>
+    <div id="segments">
 
-  </div>
-  <div id="devices">
-    <h2>Devices</h2>
-    <svg id="devices-chart"></svg>
+    </div>
+    <div id="devices">
+      <h2>Devices</h2>
+      <svg id="devices-chart"></svg>
+    </div>
   </div>
   <script>
   $(function(){
