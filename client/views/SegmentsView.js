@@ -4,7 +4,7 @@ var SegmentsView = Backbone.View.extend({
   template: _.template(
     '<h2>SegmentsView</h2>' +
     '<ul>' +
-      '<li value="all" class="segment-filter">All: <%= all %></li>' +
+      '<li value="all" class="segment-filter active">All: <%= all %></li>' +
       '<li value="male" class="segment-filter">Male: <%= male %></li>' +
       '<li value="female" class="segment-filter">Female: <%= female %></li>' +
     '</ul>'
