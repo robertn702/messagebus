@@ -1,9 +1,15 @@
 var SegmentsView = Backbone.View.extend({
-  template: _.template('<h2>SegmentsView</h2><ul><li value="all" class="segment-filter">All: <%= all %></li><li value="male" class="segment-filter">Male: <%= male %></li><li value="female" class="segment-filter">Female: <%= female %></li></ul>'),
+  el: '#segments',
   className: 'segments-view',
+  template: _.template(
+    '<h2>SegmentsView</h2>' +
+    '<ul>' +
+      '<li value="all" class="segment-filter">All: <%= all %></li>' +
+      '<li value="male" class="segment-filter">Male: <%= male %></li>' +
+      '<li value="female" class="segment-filter">Female: <%= female %></li>' +
+    '</ul>'
+    ),
   initialize: function(params) {
-
-    console.log('segmentView params: ', params);
     this.formatData(params.data);
     this.render();
   },
@@ -22,7 +28,6 @@ var SegmentsView = Backbone.View.extend({
     if (!data.male) { this.segments.male = 0 };
     if (!data.female) { this.segments.female = 0 };
     this.segments.all = this.segments.male + this.segments.female;
-    // console.log('this.counts ', this.counts);
   },
   updateData: function(data) {
     this.formatData(data);

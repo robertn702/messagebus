@@ -3,15 +3,13 @@ var AppView = Backbone.View.extend({
   className: 'app-view',
 
   initialize: function(params){
-    // console.log('AppView params: ', params);
-
-    this.activityView = new ActivityView({data: this.model.get('filteredData')});
+    this.activityView = new ActivityView({model: this.model});
+    this.activityChartView = new ActivityChartView({data: this.model.get('filteredData')});
     this.devicesView = new DevicesView({data: this.model.get('filteredData')});
-    console.log('segments data from AppView: ', this.model.get('segmentData'));
     this.segmentsView = new SegmentsView({model: this.model, data: this.model.get('segmentData')});
 
     this.model.on('change:filteredData', function(model) {
-      this.activityView.updateData(model.get('filteredData'));
+      this.activityChartView.updateData(model.get('filteredData'));
       this.devicesView.updateData(model.get('filteredData'));
     }, this);
 
@@ -20,9 +18,8 @@ var AppView = Backbone.View.extend({
     }, this);
   },
   render: function(){
-    return this.$el.html([
-      this.segmentsView.$el
-    ]);
+    $('#segments').append(this.segmentsView.$el);
+    $('#activity').append(this.activityChartView.$el);
   }
 
 });

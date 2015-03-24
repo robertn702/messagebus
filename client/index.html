@@ -18,30 +18,17 @@
 
   <!-- // <script src="data/sample-data.csv"></script> -->
   <script src="data/sample-data.js"></script>
-
-  <!-- // <script src="models/SongModel.js"></script> -->
-  <!-- // <script src="collections/Songs.js"></script> -->
-
   <script src="models/AppModel.js"></script>
 
-  <script src="views/ActivityView.js"></script>
+  <script src="views/ActivityChartView.js"></script>
   <script src="views/DevicesView.js"></script>
-  <script src="views/SegementsView.js"></script>
+  <script src="views/SegmentsView.js"></script>
+  <script src="views/ActivityView.js"></script>
   <script src="views/AppView.js"></script>
-  <div id="main">
-    <div id="activity">
-      <h2>Activity</h2>
-      <ul id="date-filters">
-        <li><button value="1"  class="date-filter">Today</button></li>
-        <li><button value="3"  class="date-filter">3 Days</button></li>
-        <li><button value="7"  class="date-filter">7 Days</button></li>
-        <li><button value="14"  class="date-filter">14 Days</button></li>
-      </ul>
-      <svg id="activity-chart"></svg>
-    </div>
-    <div id="segments">
 
-    </div>
+  <div id="main">
+    <div id="activity"></div>
+    <div id="segments"></div>
     <div id="devices">
       <h2>Devices</h2>
       <svg id="devices-chart"></svg>
@@ -53,8 +40,8 @@
     var appModel = new AppModel({data: data});
     var appView = new AppView({model: appModel});
 
-      // put the view onto the screen
-      $('#segments').append(appView.render());
+    appView.render();
+
     });
   </script>
 </body>

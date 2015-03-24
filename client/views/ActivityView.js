@@ -1,59 +1,30 @@
 var ActivityView = Backbone.View.extend({
-  el: '#activity-chart',
+  el: '#activity',
   className: 'activity-view',
-  initialize: function(params){
-    this.formatData(params.data);
-    chart = nv.models.lineChart()
-      .xScale(d3.time.scale())
-      .useInteractiveGuideline(true)  //We want nice looking tooltips and a guideline!
-      .showLegend(true)
-      .showYAxis(true)
-      .showXAxis(true);
-
-    chart.xAxis     //Chart x-axis settings
-      .axisLabel('Date (dd/mm)')
-      .tickFormat(function(d) { return d3.time.format('%m/%d')(new Date(d)) })
-
-    chart.yAxis     //Chart y-axis settings
-      .axisLabel('Activity (%)')
-      .tickFormat(d3.format(".0%"));
-
-    this.chart = chart;
-
-    nv.utils.windowResize(function() { this.chart.update() });
+  template: _.template(
+    '<h2>Activity</h2>' +
+    '<ul id="date-filters">' +
+      '<li><button value="1"  class="date-filter">Today</button></li>' +
+      '<li><button value="3"  class="date-filter">3 Days</button></li>' +
+      '<li><button value="7"  class="date-filter">7 Days</button></li>' +
+      '<li><button value="14"  class="date-filter">14 Days</button></li>' +
+    '</ul>' +
+    '<svg id="activity-chart"></svg>'
+  ),
+  initialize: function() {
     this.render();
   },
-  formatData: function(data) {
-    var dateGroupedData = _.groupBy(data, 'Date');
-    var activityValues = [];
-    var yValsAvgArray = []
-
-    for (key in dateGroupedData) {
-      activityValues.push({
-        x: new Date(key),
-        y: _.where(dateGroupedData[key], {Activity: 1}).length/dateGroupedData[key].length
-      })
-      yValsAvgArray.push({
-        x: new Date(key)
-      })
-    }
-    var sortedValues = _.sortBy(activityValues, 'x');
-
-    var yVals = _.map(activityValues, function(item) {return item.y});
-    var yValsAvg = _.reduce(yVals, function(memo, num) {return memo + num}, 0)/yVals.length;
-    var yValsAvgArray = _.each(yValsAvgArray, function(item) {item.y = yValsAvg});
-
-    this.data = [
-    {key: 'Activity', values: sortedValues},
-    {key: 'Average', values: yValsAvgArray}];
+  events: {
+    'click .date-filter': 'filterByDate'
   },
-  updateData: function(data) {
-    this.formatData(data);
-    this.render();
+  filterByDate: function(clickEvent) {
+    var dateRange = parseInt($(clickEvent.target).attr('value'));
+    this.model.set('segmentFilter', 'all');
+    this.model.set('dateFilter', dateRange);
+    this.model.filterData(this.model.get('allData'));
+    this.model.set('segmentData', _.countBy(this.model.get('filteredData'), 'Gender'));
   },
-  render: function(){
-    d3.select(this.el)    //Select the <svg> element you want to render the chart in.
-      .datum(this.data)         //Populate the <svg> element with chart data...
-      .call(this.chart);          //Finally, render the chart!
+  render: function() {
+    return this.$el.html(this.template());
   }
-});
+})

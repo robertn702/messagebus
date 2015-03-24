@@ -5,18 +5,9 @@ var AppModel = Backbone.Model.extend({
     this.set('allData', params.data);
     this.set('filteredData', params.data);
     this.set('segmentData', _.countBy(params.data, 'Gender'));
-
     this.set('today', new Date('07/31/14').valueOf());
     this.set('dateFilter', 14);
     this.set('segmentFilter', 'all');
-
-    $('.date-filter').click(_.bind(function(button) {
-      var dateRange = parseInt($(button.target).attr('value'));
-      this.set('segmentFilter', 'all');
-      this.set('dateFilter', dateRange);
-      this.filterData(this.get('allData'));
-      this.set('segmentData', _.countBy(this.get('filteredData'), 'Gender'));
-    }, this));
   },
   filterData: function(data) {
     var cutoffDate = this.get('today') - this.get('dateFilter') * 86400000;
