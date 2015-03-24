@@ -3,9 +3,10 @@ var ActivityChartView = Backbone.View.extend({
   className: 'activity-chart-view',
   initialize: function(params){
     this.formatData(params.data);
+
     chart = nv.models.lineChart()
       .xScale(d3.time.scale())
-      .useInteractiveGuideline(true)  //We want nice looking tooltips and a guideline!
+      .useInteractiveGuideline(true)
       .showLegend(true)
       .showYAxis(true)
       .showXAxis(true);
@@ -28,6 +29,7 @@ var ActivityChartView = Backbone.View.extend({
     var activityValues = [];
     var yValsAvgArray = [];
 
+    // sets x and y data values
     for (key in dateGroupedData) {
       activityValues.push({
         x: new Date(key),
@@ -36,16 +38,55 @@ var ActivityChartView = Backbone.View.extend({
       yValsAvgArray.push({x: new Date(key)})
     }
 
+    // sorts data values by date
     var sortedValues = _.sortBy(activityValues, 'x');
 
-    // Calculates data avg
-    var yVals = _.map(sortedValues, function(item) {return item.y});
-    var yValsAvg = _.reduce(yVals, function(memo, num) {return memo + num}, 0)/yVals.length;
-    yValsAvgArray = _.each(yValsAvgArray, function(item) {item.y = yValsAvg});
+    var averageData = this.getAverage(sortedValues, yValsAvgArray);
+    var trendData = this.getTrend(sortedValues);
 
-    this.data =
-    [{key: 'Activity', values: sortedValues},
-    {key: 'Average', values: yValsAvgArray}];
+    // sets data for line chart
+    this.data = [{key: 'Activity', values: sortedValues},
+                {key: 'Average', values: averageData},
+                {key: 'Trend Line', values: trendData}];
+
+  },
+  getAverage: function(data, avgArr) {
+    var yVals = _.map(data, function(item) {return item.y});
+    var yValsAvg = _.reduce(yVals, function(memo, num) {return memo + num}, 0)/yVals.length;
+
+    return _.each(avgArr, function(item) {item.y = yValsAvg});
+  },
+  getTrend: function(data) {
+    // get the x and y values for least squares
+    var xSeries = d3.range(1, data.length + 1);
+    var ySeries = _.map(data, function(d) {return d.y});
+    var xLabels = _.map(data, function(d) {return d.x});
+
+    var leastSquaresCoeff = this.leastSquares(xSeries, ySeries);
+
+    // apply the reults of the least squares regression
+    var x1 = xLabels[0];
+    var y1 = leastSquaresCoeff[0] + leastSquaresCoeff[1];
+    var x2 = xLabels[xLabels.length - 1];
+    var y2 = leastSquaresCoeff[0] * xSeries.length + leastSquaresCoeff[1];
+
+    return [{x: x1, y: y1}, {x: x2, y: y2}];
+  },
+  leastSquares: function(xSeries, ySeries) {
+    var reduceSumFunc = function(prev, cur) { return prev + cur; };
+
+    var xBar = _.reduce(xSeries, reduceSumFunc) * 1.0 / xSeries.length;
+    var yBar = _.reduce(ySeries, reduceSumFunc) * 1.0 / ySeries.length;
+
+    var ssXX = _.reduce(_.map(xSeries, function(d) { return Math.pow(d - xBar, 2); }), reduceSumFunc);
+    var ssYY = _.reduce(_.map(ySeries, function(d) { return Math.pow(d - yBar, 2); }), reduceSumFunc);
+    var ssXY = _.reduce(_.map(xSeries, function(d, i) { return (d - xBar) * (ySeries[i] - yBar); }), reduceSumFunc);
+
+    var slope = ssXY / ssXX;
+    var intercept = yBar - (xBar * slope);
+    var rSquare = Math.pow(ssXY, 2) / (ssXX * ssYY);
+
+    return [slope, intercept, rSquare];
   },
   calcAverage: function(values, avgArray) {
     var yVals = _.map(sortedValues, function(item) {return item.y});
