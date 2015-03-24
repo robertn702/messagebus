@@ -46,8 +46,8 @@ var ActivityChartView = Backbone.View.extend({
 
     // sets data for line chart
     this.data = [{key: 'Activity', values: sortedValues},
-                {key: 'Average', values: averageData},
-                {key: 'Trend Line', values: trendData}];
+                {key: 'Average', values: averageData, disabled: true},
+                {key: 'Trend Line', values: trendData, disabled: true}];
 
   },
   getAverage: function(data, avgArr) {
